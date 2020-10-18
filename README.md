@@ -15,10 +15,6 @@ Predicting the virality of Youtube Videos
 
           cd clickbait-env/Scripts
           activate
-      
-    - On Linux
-    
-          source venv/bin/activate
 
 3. Install the requirements
 
