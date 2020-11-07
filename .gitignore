@@ -1,2 +1,8 @@
 .ipynb_checkpoints
  clickbait-env/
+ 
+ .jpeg
+ .jpg
+ .png
+ .webp
+ Not-Safe-For-Work-Detection/env
