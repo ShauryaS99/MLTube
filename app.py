@@ -22,21 +22,10 @@ def predict():
     new_predictions = svm.predict(new_vectors)
     
     print(new_predictions)
-    print(type(new_predictions))
-    output = {'new_predictions': new_predictions.tolist()}
-    for i,row in enumerate(output):
-     output[i] = {k:("Clickbait" if 1 else "Not Clickbait") for k,v in row.items()}
-
-    # return data
+    output = ["Clickbait" if x=='1' else "Not Clickbait" for x in new_predictions]
+    
+    # output = {'new_predictions': new_predictions.tolist()}
     # return jsonify(results=output)
-
-    # data = [str(x) for x in request.form.values()]
-    # final_features = [np.array(int_features)]
-    # prediction = model.predict(final_features)
-
-    # output = round(prediction[0], 2)
-
-
     return render_template('index.html', prediction_text='Results Are:  $ {}'.format(output))
 
 if __name__ == '__main__':
