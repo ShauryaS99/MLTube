@@ -1,6 +1,5 @@
 VGG_MEAN = [104, 117, 123]
 
-
 def create_yahoo_image_loader(expand_dims=True):
     """Yahoo open_nsfw image loading mechanism
 

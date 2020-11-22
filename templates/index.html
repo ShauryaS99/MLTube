@@ -23,6 +23,19 @@
    {{ prediction_text }}
 
  </div>
+ 	<h1>NSFW Detector</h1>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict_nsfw')}}"method="post" enctype="multipart/form-data">
+    	<input type="file" id="myFile" name="filename">
+      <button type="submit" name="submit">Detect NSFW</button>
+    </form>
+
+   <br>
+   <br>
+   {{ prediction_text }}
+
+ </div>
 
 
 </body>
