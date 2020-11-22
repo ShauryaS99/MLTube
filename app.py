@@ -93,7 +93,7 @@ def predict_nsfw():
     # # output = {'new_predictions': new_predictions.tolist()}
     # # return jsonify(results=output)
     # return render_template('index.html', prediction_text='Results Are:  $ {}'.format(predictions[0]))
-    return render_template('index.html', prediction_text='Results Are:  $ {}'.format("test"))
+    return render_template('index.html', prediction_nsfw_text='\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*predictions[0]))
 
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
