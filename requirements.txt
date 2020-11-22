@@ -59,7 +59,6 @@ QtPy==1.9.0
 rake-nltk==1.0.4
 regex==2020.10.28
 requests==2.25.0
-scikit-learn==0.23.2
 scipy==1.5.3
 selenium==3.141.0
 Send2Trash==1.5.0
@@ -98,7 +97,18 @@ pyparsing==2.1.10
 PyYAML==3.12
 scipy==0.18.1
 six==1.10.0
-tensorflow==0.12.1
 Theano==0.8.2
 Werkzeug==0.11.15
 tqdm==4.19.4
+
+#NSFW
+sklearn==0.0
+tensorboard==1.15.0
+tensorboard-plugin-wit==1.7.0
+tensorflow==1.15.0
+tensorflow-estimator==1.15.1
+scikit-image==0.16.2
+scikit-learn==0.23.2
+scikit-video==1.1.11
+Pillow==8.0.1
+
