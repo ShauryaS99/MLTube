@@ -78,10 +78,10 @@ def predict_nsfw():
 
     image = np.expand_dims(image, axis=0)
 
-    with tf.Session() as sess:
+    with tf.compat.v1.Session() as sess:
         nsfw.build(weights_path='open_nsfw-weights.npy')
 
-        sess.run(tf.global_variables_initializer())
+        sess.run(tf.compat.v1.global_variables_initializer())
         predictions = sess.run(nsfw.predictions, feed_dict={nsfw.input: image})
 
     # # output = {'new_predictions': new_predictions.tolist()}
