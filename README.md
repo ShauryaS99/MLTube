@@ -19,3 +19,6 @@ Predicting the virality of Youtube Videos
 3. Install the requirements
 
         pip install -r requirements.txt
+        
+
+Youtube data credit: https://github.com/alessiovierti/youtube-clickbait-detector

@@ -8,19 +8,17 @@
 
 <body>
  <div class="login">
-	<h1>Clickbait Detector</h1>
+   <h1>Clickbait Detector</h1>
 
-     <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post">
-    	<input type="text" name="title1" placeholder="Title 1" required="required" />
-      <input type="text" name="title2" placeholder="Title 2" required="required" />
-		  <input type="text" name="title3" placeholder="Title 3" required="required" />
-      <button type="submit" class="btn btn-primary btn-block btn-large">Detect Clickbait</button>
-    </form>
+   <!-- Main Input For Receiving Query to our ML -->
+   <form action="{{ url_for('predict_clickbait_youtube')}}"method="post">
+    <input type="text" name="title1" placeholder="Title 1" required="required" />
+    <button type="submit" class="btn btn-primary btn-block btn-large">Detect Clickbait</button>
+  </form>
 
-   <br>
-   <br>
-   {{ prediction_text }}
+ <br>
+ <br>
+ {{ prediction_clickbait_youtube_text }}
 
  </div>
  	<h1>NSFW Detector</h1>

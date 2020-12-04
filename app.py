@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, request, render_template
 import pickle
 
+from models.convnets import ConvolutionalNet
+from models.predictor import Predictor
+
 # load model
-svm = pickle.load(open('svm.pkl','rb'))
-vectorizer = pickle.load(open('vectorizer.pkl','rb'))
-nsfw = pickle.load(open('nsfw.pkl', 'rb'))
+nsfw = pickle.load(open('models/nsfw.pkl', 'rb'))
+clickbait_predictor_yt = Predictor("models/youtube_detector.h5", "data/vocabulary_youtube_porn.txt")
 
 import tensorflow as tf
 import numpy as np
@@ -24,19 +26,13 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/predict',methods=['POST'])
-def predict():
-    # get data
+@app.route('/predict_clickbait_youtube', methods=['POST'])
+def predict_clickbait_youtube():
     data = [str(x) for x in request.form.values()]
-    new_vectors = vectorizer.transform(data)
-    new_predictions = svm.predict(new_vectors)
-    
-    print(new_predictions)
-    output = ["Clickbait" if x=='1' else "Not Clickbait" for x in new_predictions]
-    
-    # output = {'new_predictions': new_predictions.tolist()}
-    # return jsonify(results=output)
-    return render_template('index.html', prediction_text='Results Are:  $ {}'.format(output))
+    data = data[0]
+    new_predictions = clickbait_predictor_yt.predict(data)
+
+    return render_template('index.html', prediction_clickbait_youtube_text='Results Are:  $ {}'.format(new_predictions))
 
 @app.route('/predict_nsfw',methods=['POST'])
 def predict_nsfw():
@@ -87,7 +83,6 @@ def predict_nsfw():
 
         sess.run(tf.global_variables_initializer())
         predictions = sess.run(nsfw.predictions, feed_dict={nsfw.input: image})
-        print("\tSFW score:\t{}\n\tNSFW score:\t{}".format(*predictions[0]))
 
     # # output = {'new_predictions': new_predictions.tolist()}
     # # return jsonify(results=output)
