@@ -1,3 +1,4 @@
+$(document).ready(function(){
 $('#chooseFile').bind('change', function () {
     var filename = $("#chooseFile").val();
     if (/^\s*$/.test(filename)) {
@@ -9,4 +10,4 @@ $('#chooseFile').bind('change', function () {
       $("#noFile").text(filename.replace("C:\\fakepath\\", "")); 
     }
   });
-  
+});

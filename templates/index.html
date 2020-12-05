@@ -12,8 +12,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/file.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/textfield.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/percent.css') }}">
     <script src="{{
       url_for('static', filename='js/script.js') }}" defer></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="{{
       url_for('static', filename='js/file.js') }}"></script>
   <title>MLTube</title>
@@ -21,14 +23,12 @@
 
 <body>
   <div class="container">
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-
     <form action="{{url_for('predict')}}"method="post" enctype="multipart/form-data">
       <div class="file-upload">
         <div class="file-select">
           <div class="file-select-button" id="fileName">Youtube Thumbnail</div>
           <div class="file-select-name" id="noFile">No file chosen...</div> 
-          <input id = "i2" type="file" id="myFile" name="filename" required="required" /> <br>
+          <input id = "i2" type="file" id="myFile" name="filename" required="required" /><br>
         </div>
       </div>
       <br><br>
@@ -45,9 +45,22 @@
             var i1 = document.getElementById("i1").value;
             var i2 = document.getElementById("i2").value;
             if (!(i1 === "" || i2 === "")) {
+              console.log("HELLO");
               document.getElementById("button").style.display = 'none';
               document.getElementById("progress-bar").style.display = "block";
               loading();
+
+              while("{{request_done}}" != "done") {
+                //pass
+              }
+
+              var rounded_nsfw = parseInt("{{rounded_prediction_nsfw_text}}");
+              document.getElementById("nsfw").style="--percentage : ".concat(rounded_nsfw, "; --fill: #FF3D00 ;");
+              document.getElementById("nsfw_txt").innerHTML = "{{prediction_nsfw_text}}".substring(0, 5).concat("%");
+
+              var rounded_clickbait = parseInt("{{rounded_prediction_clickbait_youtube_text}}");
+              document.getElementById("clickbait").style="--percentage : ".concat(rounded_clickbait, "; --fill: #039BE5 ;");
+              document.getElementById("clickbait_txt").innerHTML = "{{prediction_clickbait_youtube_text}}".substring(0, 5).concat("%");
             }
           }
         </script>
@@ -59,11 +72,24 @@
 </body>
 
 <body>
+  <div id="nsfw" class="semi-donut margin" 
+     style="--percentage : 0; --fill: #FF3D00 ;">
+  NSFW
+  <div id=nsfw_txt>
+    0%
+  </div>
+</div>
 
+<div id="clickbait" class="semi-donut-model-2 margin"
+     style="--percentage : 0; --fill: #039BE5 ;">
+  Clickbait
+  <div id=clickbait_txt>
+    0%
+  </div>
+</div>
+
+  <!-- <br>
   <br>
-  <br>
-  {{ prediction_clickbait_youtube_text }}
-  {{ prediction_nsfw_text }}
  
     <ul>
       {% for result in relevancy_results %}
@@ -71,7 +97,7 @@
         {{result}}
       </li>
       {% endfor %}
-    </ul>
+    </ul> -->
  
   </div>
  

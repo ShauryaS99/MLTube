@@ -33,16 +33,32 @@ def predict():
     data = [str(x) for x in request.form.values()]
     data = data[0]
     (relevancy, new_predictions) = predict_clickbait_youtube(data)
+    print(new_predictions)
+
+    new_predictions = new_predictions*100
+    new_predictions = round(new_predictions, 2)
+    rounded_new_predictions = int(new_predictions)
+    if new_predictions > 0 and new_predictions < 1:
+        rounded_new_predictions = 1
+    if new_predictions > 99 and new_predictions < 100:
+        rounded_new_predictions = 99
 
     filestr = Image.open(request.files['filename'])
     data = np.array(filestr)
     nsfw_predictions = predict_nsfw(data)
+    nsfw_predictions = nsfw_predictions*100
+    nsfw_predictions = [round(nsfw_predictions[0], 2), round(nsfw_predictions[1], 2)]
+    rounded_nsfw_predictions = [int(nsfw_predictions[0]), int(nsfw_predictions[1])]
+    if nsfw_predictions[1] > 0 and nsfw_predictions[1] < 1:
+        rounded_nsfw_predictions[1] = 1
+    if nsfw_predictions[1] > 99 and sfw_predictions[1] < 100:
+        rounded_nsfw_predictions[1] = 99
 
     print(nsfw_predictions)
     print(relevancy)
     print(new_predictions)
 
-    return render_template('index.html', prediction_nsfw_text='{}'.format(nsfw_predictions[1]), prediction_clickbait_youtube_text='{}'.format(new_predictions), relevancy_results=relevancy)
+    return render_template('index.html', request_done="done", rounded_prediction_nsfw_text='{}'.format(rounded_nsfw_predictions[1]), prediction_nsfw_text='{}'.format(nsfw_predictions[1]), rounded_prediction_clickbait_youtube_text='{}'.format(rounded_new_predictions), prediction_clickbait_youtube_text='{}'.format(new_predictions), relevancy_results=relevancy)
 
 def predict_clickbait_youtube(data):
     #relevancy = scrape(data)
