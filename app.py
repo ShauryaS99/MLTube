@@ -34,12 +34,16 @@ def predict_clickbait_youtube():
     data = data[0]
     relevancy = scrape(data)
     new_predictions = clickbait_predictor_yt.predict(data)
-    return render_template('index.html', prediction_clickbait_youtube_text='Results Are:  $ {}'.format(new_predictions), relevancy_results=relevancy)
-
-@app.route('/predict_nsfw',methods=['POST'])
-def predict_nsfw():
-    # get data
     filestr = Image.open(request.files['filename'])
+    nsfw_score = predict_nsfw(filestr)
+    print(new_predictions)
+    print(type(new_predictions))
+    return render_template('index.html', prediction_clickbait_youtube_text='Results Are:  $ {}'.format(new_predictions), prediction_nsfw_text = nsfw_score, relevancy_results=relevancy)
+
+# @app.route('/predict_nsfw',methods=['POST'])
+def predict_nsfw(filestr):
+    # get data
+    # filestr = Image.open(request.files['filename'])
 
     
     #image = np.fromstring(r.data, np.uint8)
@@ -89,7 +93,11 @@ def predict_nsfw():
     # # output = {'new_predictions': new_predictions.tolist()}
     # # return jsonify(results=output)
     # return render_template('index.html', prediction_text='Results Are:  $ {}'.format(predictions[0]))
-    return render_template('index.html', prediction_nsfw_text='\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*predictions[0]))
+    nsfw_score = '\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*predictions[0])
+    print(nsfw_score)
+    print(type(nsfw_score))
+    return nsfw_score
+    # return render_template('index.html', prediction_nsfw_text='\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*predictions[0]))
 
 def scrape(title):
     # get data

@@ -8,30 +8,41 @@
 
 <body>
  <div class="login">
-   <h1>Clickbait Detector</h1>
 
    <!-- Main Input For Receiving Query to our ML -->
-   <form action="{{ url_for('predict_clickbait_youtube')}}"method="post">
+   <form action="{{ url_for('predict_clickbait_youtube')}}"method="post" enctype="multipart/form-data">
+    <h1>Clickbait Detector</h1>
     <input type="text" name="title1" placeholder="Title 1" required="required" />
-    <button type="submit" class="btn btn-primary btn-block btn-large">Detect Clickbait</button>
+<!--     <button type="submit" class="btn btn-primary btn-block btn-large">Detect Clickbait</button>
+ -->
+    <br>
+    <br>
+    {{ prediction_clickbait_youtube_text }}
+
+    <h1>NSFW Detector</h1>
+
+    <input type="file" id="myFile" name="filename">
+    <br>
+    <br>
+    {{ prediction_nsfw_text }}
+    <button type="submit" name="submit">Submit</button>
   </form>
 
- <br>
- <br>
- {{ prediction_clickbait_youtube_text }}
+ 
 
- 	<h1>NSFW Detector</h1>
+ 	<!-- <h1>NSFW Detector</h1> -->
 
      <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict_nsfw')}}"method="post" enctype="multipart/form-data">
+    <!-- <form action="{{ url_for('predict_nsfw')}}"method="post" enctype="multipart/form-data">
     	<input type="file" id="myFile" name="filename">
       <button type="submit" name="submit">Detect NSFW</button>
+
     </form>
 
    <br>
    <br>
    {{ prediction_nsfw_text }}
-
+ -->
   <h1>Relevancy Ranker!</h1>
    <ul>
      {% for result in relevancy_results %}
@@ -47,7 +58,12 @@
 
    <br>
    <br>
-    -->{{ relevancy_results3 }}
+    --> 
+  <h1>Virality Score</h1>
+    <br>
+    <br>
+    {{ score }}
+
 
 
  </div>
