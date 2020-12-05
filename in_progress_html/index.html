@@ -15,7 +15,7 @@
 <body>
     <div class="circular">
       <div class="inner">
-</div>
+    </div>
 <div class="outer">
 </div>
 <div class="numb">
@@ -34,6 +34,7 @@
 </div>
 </div>
 </div>
+<div id="txt">Loading...</div>   
     <script>
         function fade(element, op) {
             var timer = setInterval(function () {
@@ -41,7 +42,7 @@
                     clearInterval(timer);
                     element.style.display = 'none';
                 }
-                //element.style.opacity = op;
+                // element.style.opacity = op;
                 element.style.filter = 'alpha(opacity=' + op * 100 + ")";
                 op -= op * 0.1;
             }, 50);
@@ -50,52 +51,159 @@
         const numb = document.querySelector(".numb");
         const circ = document.querySelector(".circle");
         const circ2 = document.querySelector(".circular");
+        var text = document.getElementById("txt");
         let counter = 0;
+        const c1 = Math.floor(Math.random() * 25);
+        const c2 = 25 + Math.floor(Math.random() * 25);
+        const c3 = 50 + Math.floor(Math.random() * 25);
         setInterval(()=>{
             if(counter == 100){
-                clearInterval();
-                fade(numb, 1);
-                fade(circ, 1);
-                fade(circ2, 1);
-        
-                document.getElementById("container").style.display = "none";
-            }else{
-            counter+=1;
-            numb.textContent = counter + "%";
+              clearInterval();
+              fade(numb, 1);
+              fade(circ, 1);
+              fade(circ2, 1);
+              text.innerHTML = "";
+            } else {
+              counter+=1;
+              numb.textContent = counter + "%";
+              
+              if (counter == c1) {
+              text.innerHTML = "Running Clickbait Classifier...";
+            } else if (counter == c2) {
+              text.innerHTML = "Running NSFW Classifier...";
+            } else if (counter == c3) {
+              text.innerHTML = "Running Relevancy Tracker...";
+            }
             }
         }, 80);
-        
     </script>
+     
+    
 
   </body>
 
 <body class="fullstacks">
-  <div class="container"">
-    <div class="logo">
-      <h1>Fullstacks</h1>
-      <h2>Progress</h2>
+  <div style="width: 30%; display: table; display:none">
+    <div style="display: table-row;">
+      <div class="container" style="width: 30%; display: table-cell">
+        <div class="logo">
+          <h1>Clickbait Score</h1>
+          <h2>of Title</h2>
+        </div>
+        <div class="circular">
+          <div class="inner">
     </div>
-    <div class="progress-container">
-      <svg class="progressbar" viewBox="0 0 64 64">
-        <defs>
-          <clipPath id="progress__mask">
-            <path
-              d="M29 63.35h-.15a31.55 31.55 0 0 1-28.2-28.2 1.5 1.5 0 0 1 3-.3 28.56 28.56 0 0 0 25.5 25.51 1.5 1.5 0 0 1-.15 3zM35 63.35a1.5 1.5 0 0 1-.15-3 28.56 28.56 0 0 0 25.52-25.5 1.5 1.5 0 0 1 3 .3 31.55 31.55 0 0 1-28.2 28.19zM2.14 30.5H2a1.5 1.5 0 0 1-1.35-1.65A31.56 31.56 0 0 1 28.85.66a1.5 1.5 0 0 1 .3 3A28.56 28.56 0 0 0 3.63 29.15a1.5 1.5 0 0 1-1.49 1.35zM61.86 30.5a1.5 1.5 0 0 1-1.49-1.35A28.56 28.56 0 0 0 34.85 3.64a1.5 1.5 0 1 1 .3-3 31.56 31.56 0 0 1 28.2 28.19A1.5 1.5 0 0 1 62 30.49z" />
-          </clipPath>
-        </defs>
-        <g clip-path="url(#progress__mask)">
-          <circle class="progressbar__track" cx="50%" cy="50%" r="30px"></circle>
-          <circle class="progressbar__thumb progressbar__thumb--track-1" cx="50%" cy="50%" r="30px"></circle>
-          <circle class="progressbar__thumb progressbar__thumb--track-2" cx="50%" cy="50%" r="30px"></circle>
-          <circle class="progressbar__thumb progressbar__thumb--track-3" cx="50%" cy="50%" r="30px"></circle>
-        </g>
-      </svg>
-      <div class="progress-content">
-        <div class="progress__value">67</div>
-        <div class="progress__text">Well done!</div>
-      </div>
+    <div class="outer">
+    </div>
+    <div class="numb">
+    0%</div>
+    <div class="circle">
+            <div class="dot">
+              <span></span>
+            </div>
+    <div class="bar left">
+              <div class="progress">
+    </div>
+    </div>
+    <div class="bar right">
+              <div class="progress">
+    </div>
+    </div>
+    </div>
+    </div>
+        <script>
+            function fade(element, op) {
+                var timer = setInterval(function () {
+                    if (op <= 0.1){
+                        clearInterval(timer);
+                        element.style.display = 'none';
+                    }
+                    // element.style.opacity = op;
+                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                    op -= op * 0.1;
+                }, 50);
+            }
+    
+            const numb = document.querySelector(".numb");
+            const circ = document.querySelector(".circle");
+            const circ2 = document.querySelector(".circular");
+            const container = document.querySelector(".container");
+            let counter = 0;
+            setInterval(()=>{
+                if(counter == 100){
+                    clearInterval();
+                    fade(numb, 1);
+                    fade(circ, 1);
+                    fade(circ2, 1);
+                }else{
+                counter+=1;
+                numb.textContent = counter + "%";
+                }
+            }, 80);
+            
+        </script>
+         </div>
+    
+      <div class="container" style="width: 30%; display: table-cell">
+        <div class="logo">
+          <h1>NSFW Score</h1>
+          <h2>of Thumbnail</h2>
+        </div>
+        <div class="circular">
+          <div class="inner">
+    </div>
+    <div class="outer">
+    </div>
+    <div class="numb">
+    0%</div>
+    <div class="circle">
+            <div class="dot">
+              <span></span>
+            </div>
+    <div class="bar left">
+              <div class="progress">
+    </div>
+    </div>
+    <div class="bar right">
+              <div class="progress">
+    </div>
+    </div>
+    </div>
+    </div>
+        <script>
+            function fade(element, op) {
+                var timer = setInterval(function () {
+                    if (op <= 0.1){
+                        clearInterval(timer);
+                        element.style.display = 'none';
+                    }
+                    // element.style.opacity = op;
+                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                    op -= op * 0.1;
+                }, 50);
+            }
+    
+            const numb = document.querySelector(".numb");
+            const circ = document.querySelector(".circle");
+            const circ2 = document.querySelector(".circular");
+            const container = document.querySelector(".container");
+            let counter = 0;
+            setInterval(()=>{
+                if(counter == 100){
+                    clearInterval();
+                    fade(numb, 1);
+                    fade(circ, 1);
+                    fade(circ2, 1);
+                }else{
+                counter+=1;
+                numb.textContent = counter + "%";
+                }
+            }, 80);
+            
+          </script>
     </div>
   </div>
+  
 </body>
 
 </html>

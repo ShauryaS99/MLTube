@@ -28,27 +28,29 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/predict_clickbait_youtube', methods=['POST'])
-def predict_clickbait_youtube():
+@app.route('/predict', methods=['POST'])
+def predict():
     data = [str(x) for x in request.form.values()]
     data = data[0]
-    relevancy = scrape(data)
-    new_predictions = clickbait_predictor_yt.predict(data)
-    return render_template('index.html', prediction_clickbait_youtube_text='Results Are:  $ {}'.format(new_predictions), relevancy_results=relevancy)
+    (relevancy, new_predictions) = predict_clickbait_youtube(data)
 
-@app.route('/predict_nsfw',methods=['POST'])
-def predict_nsfw():
-    # get data
     filestr = Image.open(request.files['filename'])
-
-    
-    #image = np.fromstring(r.data, np.uint8)
-
-    # data = request.get_json(force=True)
-    # data = np.array(data)
-
     data = np.array(filestr)
+    nsfw_predictions = predict_nsfw(data)
 
+    print(nsfw_predictions)
+    print(relevancy)
+    print(new_predictions)
+
+    return render_template('index.html', prediction_nsfw_text='\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*nsfw_predictions), prediction_clickbait_youtube_text='Results Are:  $ {}'.format(new_predictions), relevancy_results=relevancy)
+
+def predict_clickbait_youtube(data):
+    relevancy = scrape(data)
+    relevancy = "HELLO"
+    new_predictions = clickbait_predictor_yt.predict(data)
+    return (relevancy, new_predictions)
+
+def predict_nsfw(data):
     img_data = data
     im = Image.fromarray(img_data.astype('uint8'), 'RGB')
 
@@ -86,10 +88,7 @@ def predict_nsfw():
         sess.run(tf.compat.v1.global_variables_initializer())
         predictions = sess.run(nsfw.predictions, feed_dict={nsfw.input: image})
 
-    # # output = {'new_predictions': new_predictions.tolist()}
-    # # return jsonify(results=output)
-    # return render_template('index.html', prediction_text='Results Are:  $ {}'.format(predictions[0]))
-    return render_template('index.html', prediction_nsfw_text='\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*predictions[0]))
+    return predictions[0]
 
 def scrape(title):
     # get data
@@ -116,10 +115,6 @@ def scrape(title):
     print(relevancy)
 
     return relevancy
-    # return render_template('index.html', relevancy_results=result)
-
-    
-    
 
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
