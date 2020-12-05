@@ -24,17 +24,18 @@ class Extract:
 class Relevancy_Scraper:
     url = "https://www.youtube.com/results?search_query="
     def __init__(self, keyword):
-        # GOOGLE_CHROME_PATH = '/ml-tube/.apt/usr/bin/google_chrome'
-        # CHROMEDRIVER_PATH = '/ml-tube/.chromedriver/bin/chromedriver'
-        # chrome_options = Options()
-        # chrome_options.add_argument('--disable-gpu')
-        # chrome_options.add_argument('--no-sandbox')
-        # chrome_options.binary_location = GOOGLE_CHROME_PATH
-        # driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=chrome_options)
+        GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+        CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
         chrome_options = Options()
-        chrome_options.add_argument("--headless")
+        chrome_options.add_argument('--headless')
         chrome_options.add_argument("--disable-gpu")
-        driver = webdriver.Chrome(executable_path='C:\\webdrivers\\chromedriver.exe', options=chrome_options)
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.binary_location = GOOGLE_CHROME_PATH
+        driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=chrome_options)
+        # chrome_options = Options()
+        # chrome_options.add_argument("--headless")
+        # chrome_options.add_argument("--disable-gpu")
+        # driver = webdriver.Chrome(executable_path='C:\\webdrivers\\chromedriver.exe', options=chrome_options)
         self.keyword = keyword
         self.driver = driver
         self.livestream = False
