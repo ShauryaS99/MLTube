@@ -123,12 +123,12 @@ def scrape(title):
         p2_tot_views = p2.get_adj_views()
         p2.close()
         result2 = p2.to_string(p2_tot_views)
-        tot_keywords = keywords[0] + " " + keywords[1]
-        p3 = Relevancy_Scraper(tot_keywords)
-        p3_tot_views = p3.get_adj_views()
-        p3.close()
-        result3 = p3.to_string(p3_tot_views)
-        relevancy = [result, result2, result3]
+        # tot_keywords = keywords[0] + " " + keywords[1]
+        # p3 = Relevancy_Scraper(tot_keywords)
+        # p3_tot_views = p3.get_adj_views()
+        # p3.close()
+        # result3 = p3.to_string(p3_tot_views)
+        relevancy = [result, result2]
     print("finished all")
     print(relevancy)
 
@@ -138,7 +138,7 @@ def scrape(title):
 def score(var1, var2, var3):
     clickbait = int(var1 * 10)
     nsfw = int(var2 * 10)
-    lst = [5,0,0]
+    lst = [5,0]
     for i in range(len(var3)):
         if "Irrelevant" in var3[i]:
             lst[i] = 2
