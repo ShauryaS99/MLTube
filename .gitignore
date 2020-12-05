@@ -1,8 +1,11 @@
 .ipynb_checkpoints
- clickbait-env/
  
- .jpeg
- .jpg
- .png
- .webp
- Not-Safe-For-Work-Detection/env
+.jpeg
+.jpg
+.png
+.webp
+ 
+glove.6B.50d.txt
+clickbait_youtube.txt
+genuine_youtube.txt
+vocabulary_youtube.txt

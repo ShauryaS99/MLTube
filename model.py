@@ -31,21 +31,21 @@ class OpenNsfwModel:
         self.input_tensor = None
 
         if input_type == InputType.TENSOR:
-            self.input = tf.placeholder(tf.float32,
+            self.input = tf.compat.v1.placeholder(tf.float32,
                                         shape=[None, 224, 224, 3],
                                         name="input")
             self.input_tensor = self.input
         elif input_type == InputType.BASE64_JPEG:
             from image_utils import load_base64_tensor
 
-            self.input = tf.placeholder(tf.string, shape=(None,), name="input")
+            self.input = tf.compat.v1.placeholder(tf.string, shape=(None,), name="input")
             self.input_tensor = load_base64_tensor(self.input)
         else:
             raise ValueError("invalid input type '{}'".format(input_type))
 
         x = self.input_tensor
 
-        x = tf.pad(x, [[0, 0], [3, 3], [3, 3], [0, 0]], 'CONSTANT')
+        x = tf.pad(tensor=x, paddings=[[0, 0], [3, 3], [3, 3], [0, 0]], mode='CONSTANT')
 
         x = self.__conv2d("conv_1", x, filter_depth=64,
                           kernel_size=7, stride=2, padding='valid')
@@ -126,9 +126,9 @@ class OpenNsfwModel:
     def __fully_connected(self, name, inputs, num_outputs):
         return tf.keras.layers.Dense(
             units=num_outputs, name=name,
-            kernel_initializer=tf.constant_initializer(
+            kernel_initializer=tf.compat.v1.constant_initializer(
                 self.__get_weights(name, "weights"), dtype=tf.float32),
-            bias_initializer=tf.constant_initializer(
+            bias_initializer=tf.compat.v1.constant_initializer(
                 self.__get_weights(name, "biases"), dtype=tf.float32))(inputs)
 
     def __conv2d(self, name, inputs, filter_depth, kernel_size, stride=1, padding="same", trainable=False):
@@ -141,9 +141,9 @@ class OpenNsfwModel:
 
                 p = int(math.floor(((oh - 1) * stride + kernel_size - h)//2))
 
-                inputs = tf.pad(inputs,
-                                [[0, 0], [p, p], [p, p], [0, 0]],
-                                'CONSTANT')
+                inputs = tf.pad(tensor=inputs,
+                                paddings=[[0, 0], [p, p], [p, p], [0, 0]],
+                                mode='CONSTANT')
                 #print("PADDED INPUT SIZE: ", inputs.get_shape().as_list())
             else:
                 raise Exception('unsupported kernel size for padding: "{}"'
@@ -154,21 +154,21 @@ class OpenNsfwModel:
            kernel_size=(kernel_size, kernel_size),
             strides=(stride, stride), padding='valid',
             activation=None, trainable=trainable, name=name,
-            kernel_initializer=tf.constant_initializer(
+            kernel_initializer=tf.compat.v1.constant_initializer(
                 self.__get_weights(name, "weights"), dtype=tf.float32),
-            bias_initializer=tf.constant_initializer(
+            bias_initializer=tf.compat.v1.constant_initializer(
                self.__get_weights(name, "biases"), dtype=tf.float32))(inputs)       
 
     def __batch_norm(self, name, inputs, training=False):
         return tf.keras.layers.BatchNormalization(
             trainable=training, epsilon=self.bn_epsilon,
-            gamma_initializer=tf.constant_initializer(
+            gamma_initializer=tf.compat.v1.constant_initializer(
                 self.__get_weights(name, "scale"), dtype=tf.float32),
-            beta_initializer=tf.constant_initializer(
+            beta_initializer=tf.compat.v1.constant_initializer(
                 self.__get_weights(name, "offset"), dtype=tf.float32),
-            moving_mean_initializer=tf.constant_initializer(
+            moving_mean_initializer=tf.compat.v1.constant_initializer(
                 self.__get_weights(name, "mean"), dtype=tf.float32),
-            moving_variance_initializer=tf.constant_initializer(
+            moving_variance_initializer=tf.compat.v1.constant_initializer(
                 self.__get_weights(name, "variance"), dtype=tf.float32),
             name=name)(inputs)
 
