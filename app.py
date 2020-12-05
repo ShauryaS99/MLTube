@@ -48,8 +48,8 @@ def predict():
         rounded_new_predictions = 99
 
     filestr = Image.open(request.files['filename'])
-    data = np.array(filestr)
-    nsfw_predictions = predict_nsfw(data)
+    img_data = np.array(filestr)
+    nsfw_predictions = predict_nsfw(img_data)
     nsfw_predictions = nsfw_predictions*100
     nsfw_predictions = [round(nsfw_predictions[0], 2), round(nsfw_predictions[1], 2)]
     rounded_nsfw_predictions = [int(nsfw_predictions[0]), int(nsfw_predictions[1])]
@@ -62,7 +62,7 @@ def predict():
     print(relevancy)
     print(new_predictions)
 
-    return render_template('index.html', request_done="done", rounded_prediction_nsfw_text='{}'.format(rounded_nsfw_predictions[1]), prediction_nsfw_text='{}'.format(nsfw_predictions[1]), rounded_prediction_clickbait_youtube_text='{}'.format(rounded_new_predictions), prediction_clickbait_youtube_text='{}'.format(new_predictions), relevancy_results=relevancy)
+    return render_template('index.html', request_done="done", data_title=data, data_img=img_data, rounded_prediction_nsfw_text='{}'.format(rounded_nsfw_predictions[1]), prediction_nsfw_text='{}'.format(nsfw_predictions[1]), rounded_prediction_clickbait_youtube_text='{}'.format(rounded_new_predictions), prediction_clickbait_youtube_text='{}'.format(new_predictions), relevancy_results=relevancy)
 
 def predict_clickbait_youtube(data):
     #relevancy = scrape(data)
