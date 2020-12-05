@@ -22,7 +22,6 @@
    <br>
    {{ prediction_text }}
 
- </div>
  	<h1>NSFW Detector</h1>
 
      <!-- Main Input For Receiving Query to our ML -->
@@ -34,6 +33,24 @@
    <br>
    <br>
    {{ prediction_nsfw_text }}
+
+  <h1>Relevancy Ranker</h1>
+   <ul>
+     {% for result in relevancy_results %}
+     <li>
+       {{result}}
+     </li>
+     {% endfor %}
+   </ul>
+
+   <!-- <br>
+   <br>
+   {{ relevancy_results2 }}
+
+   <br>
+   <br>
+    -->{{ relevancy_results3 }}
+
 
  </div>
 

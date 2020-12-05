@@ -9,10 +9,12 @@ nsfw = pickle.load(open('nsfw.pkl', 'rb'))
 import tensorflow as tf
 import numpy as np
 from model import OpenNsfwModel, InputType
+from scrape import Extract, Relevancy_Scraper
 import skimage
 import skimage.io
 from PIL import Image
 from io import BytesIO
+import time
 
 VGG_MEAN = [104, 117, 123]
 
@@ -36,7 +38,9 @@ def predict():
     
     # output = {'new_predictions': new_predictions.tolist()}
     # return jsonify(results=output)
-    return render_template('index.html', prediction_text='Results Are:  $ {}'.format(output))
+    relevancy = scrape(data[0])
+    # time.sleep(10)
+    return render_template('index.html', prediction_text='Results Are:  $ {}'.format(output), relevancy_results=relevancy)
 
 @app.route('/predict_nsfw',methods=['POST'])
 def predict_nsfw():
@@ -93,6 +97,36 @@ def predict_nsfw():
     # # return jsonify(results=output)
     # return render_template('index.html', prediction_text='Results Are:  $ {}'.format(predictions[0]))
     return render_template('index.html', prediction_nsfw_text='\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*predictions[0]))
+
+def scrape(title):
+    # get data
+    extractor = Extract(title)
+    keywords = extractor.extract_keywords()
+
+    p1 = Relevancy_Scraper(keywords[0])
+    p1_tot_views = p1.get_adj_views()
+    p1.close()
+    result = p1.to_string(p1_tot_views)
+    relevancy = [result]
+    if len(keywords) > 1:
+        p2 = Relevancy_Scraper(keywords[1])
+        p2_tot_views = p2.get_adj_views()
+        p2.close()
+        result2 = p2.to_string(p2_tot_views)
+        tot_keywords = keywords[0] + " " + keywords[1]
+        p3 = Relevancy_Scraper(tot_keywords)
+        p3_tot_views = p3.get_adj_views()
+        p3.close()
+        result3 = p3.to_string(p3_tot_views)
+        relevancy = [result, result2, result3]
+    print("finished all")
+    print(relevancy)
+
+    return relevancy
+    # return render_template('index.html', relevancy_results=result)
+
+    
+    
 
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
