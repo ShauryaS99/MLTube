@@ -64,13 +64,13 @@
 
                 var rounded_clickbait = parseInt("{{rounded_prediction_clickbait_youtube_text}}");
                 var true_clickbait = "{{prediction_clickbait_youtube_text}}"
-                //var relevancy = "{{relevancy_results}}"
+                var relevancy = "{{relevancy_results}}"
 
                 localStorage.setItem( 'rounded_nsfw', rounded_nsfw);
                 localStorage.setItem( 'true_nsfw', true_nsfw);
                 localStorage.setItem( 'rounded_clickbait', rounded_clickbait);
                 localStorage.setItem( 'true_clickbait', true_clickbait);
-                //localStorage.setItem( 'relevancy', relevancy);
+                localStorage.setItem( 'relevancy', relevancy);
                 window.open('results', '_blank');
                 return false;
               });

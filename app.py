@@ -125,12 +125,14 @@ def scrape(title):
         p2_tot_views = p2.get_adj_views()
         p2.close()
         result2 = p2.to_string(p2_tot_views)
-        tot_keywords = keywords[0] + " " + keywords[1]
-        p3 = Relevancy_Scraper(tot_keywords)
-        p3_tot_views = p3.get_adj_views()
-        p3.close()
-        result3 = p3.to_string(p3_tot_views)
-        relevancy = [result, result2, result3]
+        # tot_keywords = keywords[0] + " " + keywords[1]
+        # p3 = Relevancy_Scraper(tot_keywords)
+        # p3_tot_views = p3.get_adj_views()
+        # p3.close()
+        # result3 = p3.to_string(p3_tot_views)
+        relevancy = [result, result2]
+    print("finished all")
+    print(relevancy)
 
     return relevancy
 
