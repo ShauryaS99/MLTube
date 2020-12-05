@@ -3,8 +3,11 @@ from rake_nltk import Rake
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
-
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+import time
+import os
 
 #Extract Keywords
 class Extract:
@@ -19,10 +22,7 @@ class Extract:
 
 
 #Setup WebDriver
-
-
 class Relevancy_Scraper:
-    url = "https://www.youtube.com/results?search_query="
     def __init__(self, keyword):
         GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
         CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
@@ -30,12 +30,9 @@ class Relevancy_Scraper:
         chrome_options.add_argument('--headless')
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument('--no-sandbox')
-        chrome_options.binary_location = GOOGLE_CHROME_PATH
-        driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=chrome_options)
-        # chrome_options = Options()
-        # chrome_options.add_argument("--headless")
-        # chrome_options.add_argument("--disable-gpu")
-        # driver = webdriver.Chrome(executable_path='C:\\webdrivers\\chromedriver.exe', options=chrome_options)
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+        self.url = "https://www.youtube.com/results?search_query="
         self.keyword = keyword
         self.driver = driver
         self.livestream = False
@@ -47,24 +44,33 @@ class Relevancy_Scraper:
         for word in lst_keywords:
             query+=word + "+"
         query = query[:-1]
-        Relevancy_Scraper.url+=query
+        self.url+=query
+        print("query is" + query)
+        print("keywords are: ")
+        print(lst_keywords)
     def scrape(self):
-        self.driver.get(Relevancy_Scraper.url)
+        self.driver.get(self.url)
+        filtered = False
         lst_views = []
         lst_dates = []
         counter = 0
+        filter_btn = "/html/body/ytd-app/div/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[1]/div[2]/ytd-search-sub-menu-renderer/div[1]/div/ytd-toggle-button-renderer/a"
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, filter_btn))).click()
+        filter_month = "/html/body/ytd-app/div/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[1]/div[2]/ytd-search-sub-menu-renderer/div[1]/iron-collapse/div/ytd-search-filter-group-renderer[1]/ytd-search-filter-renderer[4]/a"
+        WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((By.XPATH, filter_month))).click()
+        time.sleep(3)
         for i in range(1, 10):
             try:
                 xpath = "/html/body/ytd-app/div/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[{}]/div[1]/div/div[1]/ytd-video-meta-block/div[1]/div[2]/span[1]".format(i)
                 curr_views = self.driver.find_element_by_xpath(xpath).text
-                # print(curr_views)
+                print(curr_views)
                 if "watching" not in curr_views:
                     dates_xpath = "/html/body/ytd-app/div/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[{}]/div[1]/div/div[1]/ytd-video-meta-block/div[1]/div[2]/span[2]".format(i)
                     curr_dates = self.driver.find_element_by_xpath(dates_xpath).text
                     lst_dates.append(curr_dates)
                     lst_views.append(curr_views)
                     counter+=1
-                    # print(counter)
+                    print(counter)
                 else:
                     self.livestream = True
                     continue
@@ -74,7 +80,10 @@ class Relevancy_Scraper:
                 pass
         self.lst_views = lst_views
         self.lst_dates  = lst_dates
-    
+    def is_clicked(self):
+        
+        print("Clicked it")
+        return True
     # total_views = sum(lst_)
     def convert_str_to_number(self, views):
         x = views.split(" ")[0]
@@ -105,8 +114,8 @@ class Relevancy_Scraper:
         for date in lst_dates:
             adjusted_dates.append(self.convert_str_to_date(date))
         adjusted_views = []
-        # print(adjusted_dates)
-        # print(lst_views)
+        print(adjusted_dates)
+        print(lst_views)
         for i in range(3):            
             int_view = self.convert_str_to_number(lst_views[i]) 
             if adjusted_dates[i] < 1:
@@ -138,10 +147,10 @@ class Relevancy_Scraper:
     
     def close(self):
         self.driver.quit()
-
+        
     def to_string(self, total_views):
         livestream = "" if self.livestream else "not "
         relevancy = self.judgement(total_views)
         keyword = self.keyword
-        result = f"The topic {keyword} has been classified as {relevancy} with about {total_views} views. There are {livestream}currently livestreams on this topic."
+        result = f"The topic {keyword} has been classified as {relevancy} with about {total_views} views. There are {livestream}livestreams on this topic."
         return result
