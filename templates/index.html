@@ -51,22 +51,30 @@
               loading();
               
 
-              while("{{request_done}}" != "done") {
-                //pass
+              // while("{{request_done}}" != "done") {
+              //   //pass
+              // }
+              // await new Promise(r => setTimeout(r, 10000));
+              function sleep (time) {
+                return new Promise((resolve) => setTimeout(resolve, time));
               }
+              sleep(10000).then(() => {
+                var rounded_nsfw = parseInt("{{rounded_prediction_nsfw_text}}");
+                var true_nsfw = "{{prediction_nsfw_text}}"
 
-              var rounded_nsfw = parseInt("{{rounded_prediction_nsfw_text}}");
-              var true_nsfw = "{{prediction_nsfw_text}}"
+                var rounded_clickbait = parseInt("{{rounded_prediction_clickbait_youtube_text}}");
+                var true_clickbait = "{{prediction_clickbait_youtube_text}}"
 
-              var rounded_clickbait = parseInt("{{rounded_prediction_clickbait_youtube_text}}");
-              var true_clickbait = "{{prediction_clickbait_youtube_text}}"
+                localStorage.setItem( 'rounded_nsfw', rounded_nsfw);
+                localStorage.setItem( 'true_nsfw', true_nsfw);
+                localStorage.setItem( 'rounded_clickbait', rounded_clickbait);
+                localStorage.setItem( 'true_clickbait', true_clickbait);
+                window.open('results', '_blank');
+                return false;
+              });
+              
 
-              localStorage.setItem( 'rounded_nsfw', rounded_nsfw);
-              localStorage.setItem( 'true_nsfw', true_nsfw);
-              localStorage.setItem( 'rounded_clickbait', rounded_clickbait);
-              localStorage.setItem( 'true_clickbait', true_clickbait);
-              window.open('results', '_blank');
-              return false;
+              
             }
           }
         </script>
