@@ -8,86 +8,53 @@
   <link rel="stylesheet"
     href="https://rawcdn.githack.com/full-stacks/css-hero/00455d27e26917d35108c236deae031ad029cb98/challenges/000-template/fullstacks.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/background_styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/file.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/textfield.css') }}">
+    <script src="{{
+      url_for('static', filename='js/script.js') }}" defer></script>
+    <script src="{{
+      url_for('static', filename='js/file.js') }}"></script>
   <title>MLTube</title>
 </head>
 
 <body>
-  <form action="{{url_for('predict')}}"method="post" enctype="multipart/form-data">
-    <input type="text" name="title1" placeholder="Title 1" required="required" /> <br>
-    <input type="file" id="myFile" name="filename" required="required" /> <br>
-    <button id = "button" class="button" onclick="button_click()">
-      <span type="submit" class="btn btn-primary btn-block btn-large">Submit</span>
-      <script>
-        function button_click() {
-          document.getElementById("button").style.display = 'none';
-          start_loading();
-        }
-      </script>
-    </button>
-  </form>
+  <div class="container">
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 
-<body>
-  <div class="circular">
-    <div class="inner"></div>
-    <div class="outer"></div>
-    <div class="numb">0%</div>
-    <div class="circle">
-      <div class="dot"><span></span></div>
-      <div class="bar left">
-        <div class="progress"></div>
+    <form action="{{url_for('predict')}}"method="post" enctype="multipart/form-data">
+      <div class="file-upload">
+        <div class="file-select">
+          <div class="file-select-button" id="fileName">Youtube Thumbnail</div>
+          <div class="file-select-name" id="noFile">No file chosen...</div> 
+          <input id = "i2" type="file" id="myFile" name="filename" required="required" /> <br>
+        </div>
       </div>
-      <div class="bar right">
-        <div class="progress"></div>
+      <br><br>
+      <div class="group">      
+        <input id = "i1" type="text" name="title1" required="required" /> <br>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>Youtube Title</label>
       </div>
-    </div>
+      <button id = "button" class="button" onclick="button_click()">
+        <span class = "tick" type="submit" class="btn btn-primary btn-block btn-large">Submit</span>
+        <script>
+          function button_click() {
+            var i1 = document.getElementById("i1").value;
+            var i2 = document.getElementById("i2").value;
+            if (!(i1 === "" || i2 === "")) {
+              document.getElementById("button").style.display = 'none';
+              document.getElementById("progress-bar").style.display = "block";
+              loading();
+            }
+          }
+        </script>
+      </button>
+    </form>
+    <div id = "progress-bar" class="progress-bar" style="--width: 10; display: none;" data-label="Loading..."></div>
   </div>
-<div id="txt">Loading...</div>   
-  <script>
-      function fade(element, op) {
-          var timer = setInterval(function () {
-              if (op <= 0.1){
-                  clearInterval(timer);
-                  element.style.display = 'none';
-              }
-              // element.style.opacity = op;
-              element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-              op -= op * 0.1;
-          }, 50);
-      }
-
-      function start_loading() {
-        const numb = document.querySelector(".numb");
-        const circ = document.querySelector(".circle");
-        const circ2 = document.querySelector(".circular");
-        var text = document.getElementById("txt");
-        let counter = 0;
-        const c1 = Math.floor(Math.random() * 25);
-        const c2 = 25 + Math.floor(Math.random() * 25);
-        const c3 = 50 + Math.floor(Math.random() * 25);
-        setInterval(()=>{
-            if(counter == 100){
-              clearInterval();
-              fade(numb, 1);
-              fade(circ, 1);
-              fade(circ2, 1);
-              text.innerHTML = "";
-            } else {
-              counter+=1;
-              numb.textContent = counter + "%";
-              
-              if (counter == c1) {
-              text.innerHTML = "Running Clickbait Classifier...";
-            } else if (counter == c2) {
-              text.innerHTML = "Running NSFW Classifier...";
-            } else if (counter == c3) {
-              text.innerHTML = "Running Relevancy Tracker...";
-            }
-            }
-        }, 80);
-      }
-      
-  </script>
      
 </body>
 
