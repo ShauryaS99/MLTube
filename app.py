@@ -35,10 +35,11 @@ def predict_clickbait_youtube():
     relevancy = scrape(data)
     new_predictions = clickbait_predictor_yt.predict(data)
     filestr = Image.open(request.files['filename'])
-    nsfw_score = predict_nsfw(filestr)
+    (nsfw_str, nsfw_score) = predict_nsfw(filestr)
     print(new_predictions)
     print(type(new_predictions))
-    return render_template('index.html', prediction_clickbait_youtube_text='Results Are:  $ {}'.format(new_predictions), prediction_nsfw_text = nsfw_score, relevancy_results=relevancy)
+    final_score = score(new_predictions, nsfw_score, relevancy)
+    return render_template('index.html', prediction_clickbait_youtube_text='Results Are:  $ {}'.format(new_predictions), prediction_nsfw_text = nsfw_str, relevancy_results=relevancy, virality_score=final_score)
 
 # @app.route('/predict_nsfw',methods=['POST'])
 def predict_nsfw(filestr):
@@ -93,10 +94,18 @@ def predict_nsfw(filestr):
     # # output = {'new_predictions': new_predictions.tolist()}
     # # return jsonify(results=output)
     # return render_template('index.html', prediction_text='Results Are:  $ {}'.format(predictions[0]))
+    print(predictions[0])
+    print("those were the args")
     nsfw_score = '\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*predictions[0])
+    print("hello")
     print(nsfw_score)
     print(type(nsfw_score))
-    return nsfw_score
+    keyword = 'NSFW score: '
+    before_keyword, keyword, after_keyword = nsfw_score.partition(keyword)
+    print(before_keyword)
+    print("yolo")
+    print(after_keyword)
+    return (nsfw_score, predictions[0][1])
     # return render_template('index.html', prediction_nsfw_text='\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*predictions[0]))
 
 def scrape(title):
@@ -126,7 +135,25 @@ def scrape(title):
     return relevancy
     # return render_template('index.html', relevancy_results=result)
 
-    
+def score(var1, var2, var3):
+    clickbait = int(var1 * 10)
+    nsfw = int(var2 * 10)
+    lst = [5,0,0]
+    for i in range(len(var3)):
+        if "Irrelevant" in var3[i]:
+            lst[i] = 2
+        elif "Niche" in var3[i]:
+            lst[i] = 4
+        elif "Relevant" in var3[i]:
+            lst[i] = 7
+        elif "Popular" in var3[i]:
+            lst[i] = 10
+    avg = sum(lst) / len(var3)
+    clickbait_weighted = clickbait * 0.25
+    nsfw_weighted = nsfw * 0.3
+    avg = avg * 0.45
+    return clickbait_weighted + nsfw_weighted + avg
+
     
 
 if __name__ == '__main__':

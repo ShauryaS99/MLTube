@@ -16,7 +16,7 @@ class Predictor (object):
         self.UNK = "<UNK>"
         PAD = "<PAD>"
 
-        vocabulary = open(vocab_path).read().split("\n")
+        vocabulary = open(vocab_path, encoding='utf-8').read().split("\n")
         self.inverse_vocabulary = dict((word, i) for i, word in enumerate(vocabulary))
 
         model = ConvolutionalNet(vocabulary_size=len(vocabulary), embedding_dimension=EMBEDDING_DIMENSION, input_length=self.SEQUENCE_LENGTH)
