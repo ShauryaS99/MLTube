@@ -38,7 +38,7 @@
         <span class="bar"></span>
         <label>Youtube Title</label>
       </div>
-      <button id = "button" class="button" onclick="button_click()">
+      <button id = "button" class="button" onclick="button_click()" button type="button">
         <span class = "tick" type="submit" class="btn btn-primary btn-block btn-large">Submit</span>
         <script>
           function button_click() {
@@ -51,20 +51,28 @@
               loading();
               
 
+              function sleep (time) {
+                return new Promise((resolve) => setTimeout(resolve, time));
+              }
+              sleep(29000).then(() => {
+                var rounded_nsfw = parseInt("{{rounded_prediction_nsfw_text}}");
+                var true_nsfw = "{{prediction_nsfw_text}}"
+
+                var rounded_clickbait = parseInt("{{rounded_prediction_clickbait_youtube_text}}");
+                var true_clickbait = "{{prediction_clickbait_youtube_text}}"
+                var relevancy = "{{relevancy_results}}"
+
+                localStorage.setItem( 'rounded_nsfw', rounded_nsfw);
+                localStorage.setItem( 'true_nsfw', true_nsfw);
+                localStorage.setItem( 'rounded_clickbait', rounded_clickbait);
+                localStorage.setItem( 'true_clickbait', true_clickbait);
+                localStorage.setItem( 'relevancy', relevancy);
+                window.open('results', '_blank');
+                return false;
+              });
               
 
-              var rounded_nsfw = parseInt("{{rounded_prediction_nsfw_text}}");
-              var true_nsfw = "{{prediction_nsfw_text}}"
 
-              var rounded_clickbait = parseInt("{{rounded_prediction_clickbait_youtube_text}}");
-              var true_clickbait = "{{prediction_clickbait_youtube_text}}"
-
-              localStorage.setItem( 'rounded_nsfw', rounded_nsfw);
-              localStorage.setItem( 'true_nsfw', true_nsfw);
-              localStorage.setItem( 'rounded_clickbait', rounded_clickbait);
-              localStorage.setItem( 'true_clickbait', true_clickbait);
-              window.open('results', '_blank');
-              return false;
             }
           }
         </script>
