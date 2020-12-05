@@ -49,18 +49,24 @@
               document.getElementById("button").style.display = 'none';
               document.getElementById("progress-bar").style.display = "block";
               loading();
+              
 
               while("{{request_done}}" != "done") {
                 //pass
               }
 
               var rounded_nsfw = parseInt("{{rounded_prediction_nsfw_text}}");
-              document.getElementById("nsfw").style="--percentage : ".concat(rounded_nsfw, "; --fill: #FF3D00 ;");
-              document.getElementById("nsfw_txt").innerHTML = "{{prediction_nsfw_text}}".substring(0, 5).concat("%");
+              var true_nsfw = "{{prediction_nsfw_text}}"
 
               var rounded_clickbait = parseInt("{{rounded_prediction_clickbait_youtube_text}}");
-              document.getElementById("clickbait").style="--percentage : ".concat(rounded_clickbait, "; --fill: #039BE5 ;");
-              document.getElementById("clickbait_txt").innerHTML = "{{prediction_clickbait_youtube_text}}".substring(0, 5).concat("%");
+              var true_clickbait = "{{prediction_clickbait_youtube_text}}"
+
+              localStorage.setItem( 'rounded_nsfw', rounded_nsfw);
+              localStorage.setItem( 'true_nsfw', true_nsfw);
+              localStorage.setItem( 'rounded_clickbait', rounded_clickbait);
+              localStorage.setItem( 'true_clickbait', true_clickbait);
+              window.open('results', '_blank');
+              return false;
             }
           }
         </script>
@@ -69,39 +75,6 @@
     <div id = "progress-bar" class="progress-bar" style="--width: 10; display: none;" data-label="Loading..."></div>
   </div>
      
-</body>
-
-<body>
-  <div id="nsfw" class="semi-donut margin" 
-     style="--percentage : 0; --fill: #FF3D00 ;">
-  NSFW
-  <div id=nsfw_txt>
-    0%
-  </div>
-</div>
-
-<div id="clickbait" class="semi-donut-model-2 margin"
-     style="--percentage : 0; --fill: #039BE5 ;">
-  Clickbait
-  <div id=clickbait_txt>
-    0%
-  </div>
-</div>
-
-  <!-- <br>
-  <br>
- 
-    <ul>
-      {% for result in relevancy_results %}
-      <li>
-        {{result}}
-      </li>
-      {% endfor %}
-    </ul> -->
- 
-  </div>
- 
- 
 </body>
 </body>
 

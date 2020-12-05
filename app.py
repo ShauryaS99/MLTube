@@ -28,6 +28,10 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+@app.route('/results')
+def result():
+    return render_template('result.html')
+
 @app.route('/predict', methods=['POST'])
 def predict():
     data = [str(x) for x in request.form.values()]

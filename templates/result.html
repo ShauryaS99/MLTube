@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Rajdhani:400,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://rawcdn.githack.com/full-stacks/css-hero/00455d27e26917d35108c236deae031ad029cb98/challenges/000-template/fullstacks.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/background_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/file.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/textfield.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/percent.css') }}">
+    <script src="{{
+      url_for('static', filename='js/script.js') }}" defer></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="{{
+      url_for('static', filename='js/file.js') }}"></script>
+  <title>MLTube</title>
+</head>
+
+<body>
+  <div id="nsfw" class="semi-donut margin" 
+     style="--percentage : 0; --fill: #FF3D00 ;">
+  NSFW
+  <div id=nsfw_txt>
+    0%
+  </div>
+</div>
+
+<div id="clickbait" class="semi-donut-model-2 margin"
+     style="--percentage : 0; --fill: #039BE5 ;">
+  Clickbait
+  <div id=clickbait_txt>
+    0%
+  </div>
+</div>
+
+  <!-- <br>
+  <br>
+ 
+    <ul>
+      {% for result in relevancy_results %}
+      <li>
+        {{result}}
+      </li>
+      {% endfor %}
+    </ul> -->
+ 
+  </div>
+  <script>
+    // Get the variable
+    var rounded_nsfw = localStorage['rounded_nsfw'];
+    var true_nsfw = localStorage['true_nsfw'];
+    var rounded_clickbait = localStorage['rounded_clickbait'];
+    var true_clickbait = localStorage['true_clickbait'];
+    localStorage.removeItem( 'rounded_nsfw' );
+    localStorage.removeItem( 'true_nsfw' );
+    localStorage.removeItem( 'rounded_clickbait' );
+    localStorage.removeItem( 'true_clickbait' );
+
+    document.getElementById("nsfw").style="--percentage : ".concat(rounded_nsfw, "; --fill: #FF3D00 ;");
+    document.getElementById("nsfw_txt").innerHTML = true_nsfw.substring(0, 5).concat("%");
+    document.getElementById("clickbait").style="--percentage : ".concat(rounded_clickbait, "; --fill: #039BE5 ;");
+    document.getElementById("clickbait_txt").innerHTML = true_clickbait.substring(0, 5).concat("%");
+    </script>
+ 
+</body>
+</body>
+
+</html>
