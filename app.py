@@ -42,10 +42,10 @@ def predict():
     print(relevancy)
     print(new_predictions)
 
-    return render_template('index.html', prediction_nsfw_text='\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*nsfw_predictions), prediction_clickbait_youtube_text='Results Are:  $ {}'.format(new_predictions), relevancy_results=relevancy)
+    return render_template('index.html', prediction_nsfw_text='{}'.format(nsfw_predictions[1]), prediction_clickbait_youtube_text='{}'.format(new_predictions), relevancy_results=relevancy)
 
 def predict_clickbait_youtube(data):
-    relevancy = scrape(data)
+    #relevancy = scrape(data)
     relevancy = "HELLO"
     new_predictions = clickbait_predictor_yt.predict(data)
     return (relevancy, new_predictions)
@@ -111,8 +111,6 @@ def scrape(title):
         p3.close()
         result3 = p3.to_string(p3_tot_views)
         relevancy = [result, result2, result3]
-    print("finished all")
-    print(relevancy)
 
     return relevancy
 

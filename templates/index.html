@@ -7,43 +7,25 @@
   <link href="https://fonts.googleapis.com/css?family=Rajdhani:400,500&display=swap" rel="stylesheet">
   <link rel="stylesheet"
     href="https://rawcdn.githack.com/full-stacks/css-hero/00455d27e26917d35108c236deae031ad029cb98/challenges/000-template/fullstacks.css">
-  <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
   <title>MLTube</title>
 </head>
 
 <body>
-  <form action="{{url_for('predict')}}"method="post">
-    <input type="text" name="title1" placeholder="Title 1" required="required" />
-    <input type="file" id="myFile" name="filename" required="required" />
-    <button type="submit" class="btn btn-primary btn-block btn-large">Submit</button>
+  <form action="{{url_for('predict')}}"method="post" enctype="multipart/form-data">
+    <input type="text" name="title1" placeholder="Title 1" required="required" /> <br>
+    <input type="file" id="myFile" name="filename" required="required" /> <br>
+    <button id = "button" class="button" onclick="button_click()">
+      <span type="submit" class="btn btn-primary btn-block btn-large">Submit</span>
+      <script>
+        function button_click() {
+          document.getElementById("button").style.display = 'none';
+          start_loading();
+        }
+      </script>
+    </button>
   </form>
-  <br>
-  <br>
-  {{ prediction }}
-    {{ prediction_nsfw_text }}
- 
-   <h1>Relevancy Ranker!</h1>
-    <ul>
-      {% for result in relevancy_results %}
-      <li>
-        {{result}}
-      </li>
-      {% endfor %}
-    </ul>
- 
-    <!-- <br>
-    <br>
-    {{ relevancy_results2 }}
- 
-    <br>
-    <br>
-     -->{{ relevancy_results3 }}
- 
- 
-  </div>
- 
- 
-</body>
 
 <body>
   <div class="circular">
@@ -74,36 +56,60 @@
           }, 50);
       }
 
-      const numb = document.querySelector(".numb");
-      const circ = document.querySelector(".circle");
-      const circ2 = document.querySelector(".circular");
-      var text = document.getElementById("txt");
-      let counter = 0;
-      const c1 = Math.floor(Math.random() * 25);
-      const c2 = 25 + Math.floor(Math.random() * 25);
-      const c3 = 50 + Math.floor(Math.random() * 25);
-      setInterval(()=>{
-          if(counter == 100){
-            clearInterval();
-            fade(numb, 1);
-            fade(circ, 1);
-            fade(circ2, 1);
-            text.innerHTML = "";
-          } else {
-            counter+=1;
-            numb.textContent = counter + "%";
-            
-            if (counter == c1) {
-            text.innerHTML = "Running Clickbait Classifier...";
-          } else if (counter == c2) {
-            text.innerHTML = "Running NSFW Classifier...";
-          } else if (counter == c3) {
-            text.innerHTML = "Running Relevancy Tracker...";
-          }
-          }
-      }, 80);
+      function start_loading() {
+        const numb = document.querySelector(".numb");
+        const circ = document.querySelector(".circle");
+        const circ2 = document.querySelector(".circular");
+        var text = document.getElementById("txt");
+        let counter = 0;
+        const c1 = Math.floor(Math.random() * 25);
+        const c2 = 25 + Math.floor(Math.random() * 25);
+        const c3 = 50 + Math.floor(Math.random() * 25);
+        setInterval(()=>{
+            if(counter == 100){
+              clearInterval();
+              fade(numb, 1);
+              fade(circ, 1);
+              fade(circ2, 1);
+              text.innerHTML = "";
+            } else {
+              counter+=1;
+              numb.textContent = counter + "%";
+              
+              if (counter == c1) {
+              text.innerHTML = "Running Clickbait Classifier...";
+            } else if (counter == c2) {
+              text.innerHTML = "Running NSFW Classifier...";
+            } else if (counter == c3) {
+              text.innerHTML = "Running Relevancy Tracker...";
+            }
+            }
+        }, 80);
+      }
+      
   </script>
      
+</body>
+
+<body>
+
+  <br>
+  <br>
+  {{ prediction_clickbait_youtube_text }}
+  {{ prediction_nsfw_text }}
+ 
+    <ul>
+      {% for result in relevancy_results %}
+      <li>
+        {{result}}
+      </li>
+      {% endfor %}
+    </ul>
+ 
+  </div>
+ 
+ 
+</body>
 </body>
 
 </html>
