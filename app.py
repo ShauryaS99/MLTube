@@ -65,8 +65,8 @@ def predict():
     return render_template('index.html', request_done="done", rounded_prediction_nsfw_text='{}'.format(rounded_nsfw_predictions[1]), prediction_nsfw_text='{}'.format(nsfw_predictions[1]), rounded_prediction_clickbait_youtube_text='{}'.format(rounded_new_predictions), prediction_clickbait_youtube_text='{}'.format(new_predictions), relevancy_results=relevancy)
 
 def predict_clickbait_youtube(data):
-    relevancy = scrape(data)
-    #relevancy = "HELLO"
+    #relevancy = scrape(data)
+    relevancy = "HELLO"
     new_predictions = clickbait_predictor_yt.predict(data)
     return (relevancy, new_predictions)
 
