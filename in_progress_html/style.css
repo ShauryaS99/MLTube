@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+html,body{
+  display: grid;
+  height: 100%;
+  text-align: center;
+  place-items: center;
+  background: #dde6f0;
+}
+.circular{
+  height: 100px;
+  width: 100px;
+  position: relative;
+}
+.circular .inner, .circular .outer, .circular .circle{
+  position: absolute;
+  z-index: 6;
+  height: 100%;
+  width: 100%;
+  border-radius: 100%;
+  box-shadow: inset 0 1px 0 rgba(0,0,0,0.2);
+}
+.circular .inner{
+  top: 50%;
+  left: 50%;
+  height: 80px;
+  width: 80px;
+  margin: -40px 0 0 -40px;
+  background-color: #dde6f0;
+  border-radius: 100%;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+}
+.circular .circle{
+  z-index: 1;
+  box-shadow: none;
+}
+.circular .numb{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  font-size: 18px;
+  font-weight: 500;
+  color: #4158d0;
+}
+.circular .bar{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  -webkit-border-radius: 100%;
+  clip: rect(0px, 100px, 100px, 50px);
+}
+.circle .bar .progress{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  -webkit-border-radius: 100%;
+  clip: rect(0px, 50px, 100px, 0px);
+}
+.circle .bar .progress, .dot span{
+  background: #4158d0;
+}
+.circle .left .progress{
+  z-index: 1;
+  animation: left 4s linear both;
+}
+@keyframes left {
+  100%{
+    transform: rotate(180deg);
+  }
+}
+.circle .right{
+  z-index: 3;
+  transform: rotate(180deg);
+}
+.circle .right .progress{
+  animation: right 4s linear both;
+  animation-delay: 4s;
+}
+@keyframes right {
+  100%{
+    transform: rotate(180deg);
+  }
+}
+.circle .dot{
+  z-index: 2;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 50%;
+  height: 10px;
+  margin-top: -5px;
+  animation: dot 8s linear both;
+  transform-origin: 0% 50%;
+}
+.circle .dot span {
+  position: absolute;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+}
+@keyframes dot{
+  0% {
+    transform: rotate(-90deg);
+  }
+  50% {
+    transform: rotate(90deg);
+    z-index: 4;
+  }
+  100% {
+    transform: rotate(270deg);
+    z-index: 4;
+  }
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
+  
+  .progress-container {
+    width: 140px;
+    height: 140px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .progressbar {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+  
+  .progressbar__track {
+    fill: transparent;
+    stroke: var(--c-darker-1);
+    stroke-width: 3px;
+  }
+  
+  .progressbar__thumb {
+    fill: transparent;
+    stroke-width: 3px;
+    stroke-dasharray: 0 calc(30 * 2 * 3.141593);
+    stroke-linecap: round;
+    animation-name: progress;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(.3, 1, .3, 1);
+    transform: rotate(-89deg);
+    transform-origin: 50% 50%;
+  }
+  
+  .progressbar__thumb--track-1 {
+    stroke: var(--c-lighter-1);
+    animation-duration: 1.8s;
+  }
+  
+  .progressbar__thumb--track-2 {
+    stroke: var(--c-lighter);
+    animation-duration: 1.6s;
+    animation-delay: .2s;
+  }
+  
+  .progressbar__thumb--track-3 {
+    stroke: var(--c-yellow);
+    animation-duration: 1.2s;
+    animation-delay: .4s;
+  }
+  
+  .progress-content {
+    text-align: center;
+  }
+  
+  .progress__value {
+    color: var(--c-yellow);
+    font-size: 1.5em;
+    position: relative;
+    display: inline-block;
+    transform: scale(0);document.getElementById('container').style.display = 'none';
+    animation: pulse 400ms 1.3s forwards;
+  }
+  
+  .progress__value::before {
+    content: '%';
+    font-size: .5em;
+    position: absolute;
+    top: 4px;
+    left: -12px;
+  }
+  
+  .progress__text {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    max-height: 0;
+    overflow-y: hidden;
+    animation: flyin 500ms 1.9s forwards;
+  }
+  
+  @keyframes progress {
+    to {
+      stroke-dasharray: 110;
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(0);
+    }
+  
+    60% {
+      transform: scale(1.4);
+    }
+  
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes flyin {
+    from {
+      max-height: 0;
+      opacity: 0;
+    }
+  
+    to {
+      max-height: 20px;
+      opacity: .5;
+    }
+  }
