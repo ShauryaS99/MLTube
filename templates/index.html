@@ -53,36 +53,35 @@
               loading();
               console.log("C");
               
-              while("{{request_done}}" != "done") {
-                //pass
-                console.log("D");
-              }
-              console.log("E");
+              setTimeout(function () {
+                console.log("E");
 
-              var rounded_nsfw = parseInt("{{rounded_prediction_nsfw_text}}");
-              console.log("F");
-              var true_nsfw = "{{prediction_nsfw_text}}";
-              console.log("G");
+                var rounded_nsfw = parseInt("{{rounded_prediction_nsfw_text}}");
+                console.log("F");
+                var true_nsfw = "{{prediction_nsfw_text}}";
+                console.log("G");
 
-              var rounded_clickbait = parseInt("{{rounded_prediction_clickbait_youtube_text}}");
-              console.log("H");
-              var true_clickbait = "{{prediction_clickbait_youtube_text}}";
-              console.log("I");
+                var rounded_clickbait = parseInt("{{rounded_prediction_clickbait_youtube_text}}");
+                console.log("H");
+                var true_clickbait = "{{prediction_clickbait_youtube_text}}";
+                console.log("I");
 
-              var relevancy = "{{relevancy_results}}";
-              console.log("J");
+                var relevancy = "{{relevancy_results}}";
+                console.log("J");
 
-              localStorage.setItem( 'rounded_nsfw', rounded_nsfw);
-              console.log("K");
-              localStorage.setItem( 'true_nsfw', true_nsfw);
-              console.log("L");
-              localStorage.setItem( 'rounded_clickbait', rounded_clickbait);
-              console.log("M");
-              localStorage.setItem( 'true_clickbait', true_clickbait);
-              console.log("N");
-              localStorage.setItem( 'relevancy', relevancy);
-              console.log("O");
-              window.open('results', '_blank');
+                localStorage.setItem( 'rounded_nsfw', rounded_nsfw);
+                console.log("K");
+                localStorage.setItem( 'true_nsfw', true_nsfw);
+                console.log("L");
+                localStorage.setItem( 'rounded_clickbait', rounded_clickbait);
+                console.log("M");
+                localStorage.setItem( 'true_clickbait', true_clickbait);
+                console.log("N");
+                localStorage.setItem( 'relevancy', relevancy);
+                console.log("O");
+                window.open('results', '_blank');
+              }, 10000);
+              
             }
           }
         </script>
