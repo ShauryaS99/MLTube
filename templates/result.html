@@ -37,6 +37,14 @@
     0%
   </div>
 </div>
+</body>
+<body>
+<div>
+    Relevancy
+    <div id=relevancy_txt>
+      Blank.
+    </div>
+  </div>
 
   <!-- <br>
   <br>
@@ -56,18 +64,20 @@
     var true_nsfw = localStorage['true_nsfw'];
     var rounded_clickbait = localStorage['rounded_clickbait'];
     var true_clickbait = localStorage['true_clickbait'];
+    var relevancy = localStorage['relevancy'];
     localStorage.removeItem( 'rounded_nsfw' );
     localStorage.removeItem( 'true_nsfw' );
     localStorage.removeItem( 'rounded_clickbait' );
     localStorage.removeItem( 'true_clickbait' );
+    localStorage.removeItem( 'relevancy' );
 
     document.getElementById("nsfw").style="--percentage : ".concat(rounded_nsfw, "; --fill: #FF3D00 ;");
     document.getElementById("nsfw_txt").innerHTML = true_nsfw.substring(0, 5).concat("%");
     document.getElementById("clickbait").style="--percentage : ".concat(rounded_clickbait, "; --fill: #039BE5 ;");
     document.getElementById("clickbait_txt").innerHTML = true_clickbait.substring(0, 5).concat("%");
+    document.getElementById("relevancy_txt").innerHTML = relevancy;
     </script>
  
-</body>
 </body>
 
 </html>

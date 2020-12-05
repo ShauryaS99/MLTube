@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/percent.css') }}">
     <script src="{{
       url_for('static', filename='js/script.js') }}" defer></script>
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="{{
       url_for('static', filename='js/file.js') }}"></script>
   <title>MLTube</title>
@@ -50,23 +50,24 @@
               document.getElementById("progress-bar").style.display = "block";
               loading();
               
-
               while("{{request_done}}" != "done") {
                 //pass
               }
 
               var rounded_nsfw = parseInt("{{rounded_prediction_nsfw_text}}");
-              var true_nsfw = "{{prediction_nsfw_text}}"
+              var true_nsfw = "{{prediction_nsfw_text}}";
 
               var rounded_clickbait = parseInt("{{rounded_prediction_clickbait_youtube_text}}");
-              var true_clickbait = "{{prediction_clickbait_youtube_text}}"
+              var true_clickbait = "{{prediction_clickbait_youtube_text}}";
+
+              var relevancy = "{{relevancy_results}}";
 
               localStorage.setItem( 'rounded_nsfw', rounded_nsfw);
               localStorage.setItem( 'true_nsfw', true_nsfw);
               localStorage.setItem( 'rounded_clickbait', rounded_clickbait);
               localStorage.setItem( 'true_clickbait', true_clickbait);
+              localStorage.setItem( 'relevancy', relevancy);
               window.open('results', '_blank');
-              return false;
             }
           }
         </script>
