@@ -28,7 +28,7 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/predict_clickbait_youtube', methods=['POST'])
+@app.route('/results', methods=['POST'])
 def predict_clickbait_youtube():
     data = [str(x) for x in request.form.values()]
     data = data[0]
@@ -36,10 +36,12 @@ def predict_clickbait_youtube():
     new_predictions = clickbait_predictor_yt.predict(data)
     filestr = Image.open(request.files['filename'])
     (nsfw_str, nsfw_score) = predict_nsfw(filestr)
-    print(new_predictions)
-    print(type(new_predictions))
     final_score = score(new_predictions, nsfw_score, relevancy)
-    return render_template('index.html', prediction_clickbait_youtube_text='Results Are:  $ {}'.format(new_predictions), prediction_nsfw_text = nsfw_str, relevancy_results=relevancy, virality_score=final_score)
+    print(new_predictions)
+    print(nsfw_score)
+    new_predictions = round(new_predictions * 10, 2)
+    nsfw_score = round(nsfw_score * 10, 2)
+    return render_template('prediction.html', prediction_clickbait_youtube_text='{}/10'.format(new_predictions), prediction_nsfw_text = '{}/10'.format(nsfw_score), relevancy_results=relevancy, virality_score=final_score)
 
 # @app.route('/predict_nsfw',methods=['POST'])
 def predict_nsfw(filestr):
@@ -94,30 +96,24 @@ def predict_nsfw(filestr):
     # # output = {'new_predictions': new_predictions.tolist()}
     # # return jsonify(results=output)
     # return render_template('index.html', prediction_text='Results Are:  $ {}'.format(predictions[0]))
-    print(predictions[0])
-    print("those were the args")
     nsfw_score = '\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*predictions[0])
-    print("hello")
-    print(nsfw_score)
-    print(type(nsfw_score))
-    keyword = 'NSFW score: '
-    before_keyword, keyword, after_keyword = nsfw_score.partition(keyword)
-    print(before_keyword)
-    print("yolo")
-    print(after_keyword)
     return (nsfw_score, predictions[0][1])
     # return render_template('index.html', prediction_nsfw_text='\tSFW score:\t{}\n\tNSFW score:\t{}'.format(*predictions[0]))
 
 def scrape(title):
     # get data
+    start_time = time.time()
     extractor = Extract(title)
     keywords = extractor.extract_keywords()
-
     p1 = Relevancy_Scraper(keywords[0])
     p1_tot_views = p1.get_adj_views()
     p1.close()
     result = p1.to_string(p1_tot_views)
     relevancy = [result]
+    x = time.time() - start_time
+    print(x)
+    if x > 16.0:
+        return relevancy
     if len(keywords) > 1:
         p2 = Relevancy_Scraper(keywords[1])
         p2_tot_views = p2.get_adj_views()

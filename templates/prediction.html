@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Rajdhani:400,500&display=swap" rel="stylesheet">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+  <title>ML-Tube</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+    <header class="masthead clear">
+        <div class="centered">
+            <div class="site-branding">
+                <h1 class="site-title">MLTube: Predict your Virality!</h1>
+              <p>Created by Shaurya Sanghvi & Patrick Yin </p>
+            </div><!-- .site-title -->
+        </div><!-- .centered -->
+    </header><!-- .masthead -->
+    
+    <div class="grid">
+        <div class="item a">
+            <h1>
+                Clickbait Detector
+            </h1>
+            <h2>
+                Score: {{ prediction_clickbait_youtube_text }}
+            </h2>
+        </div>
+        <div class="item b">
+            <h1>
+                NSFW Parser
+            </h1>
+            <h2>
+                Score: {{ prediction_nsfw_text }}
+            </h2>
+        </div>
+        <div class="item c">
+            <h1>
+                Relevancy Ranker
+            </h1>
+            <ul>
+             {% for result in relevancy_results %}
+             <p>
+               {{result}}
+             </p>
+             {% endfor %}
+           </ul>
+        </div>
+        <div class="item d">
+            <h1>
+                Score
+            </h1>
+            <h2>
+                Your video got a score of: {{ virality_score }}
+            </h2>
+        </div>
+    </div>
+</body>
+
+
+
+</html>

@@ -32,12 +32,14 @@ class Relevancy_Scraper:
         chrome_options.add_argument('--no-sandbox')
         chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
         driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+        # driver = webdriver.Chrome(executable_path='C:\\webdrivers\\chromedriver.exe', options=chrome_options)
         self.url = "https://www.youtube.com/results?search_query="
         self.keyword = keyword
         self.driver = driver
         self.livestream = False
         self.lst_views = []
         self.lst_dates = []
+        self.shit_failed = False
     def modify_url(self):
         lst_keywords = self.keyword.split(" ")
         query = ""
@@ -45,7 +47,6 @@ class Relevancy_Scraper:
             query+=word + "+"
         query = query[:-1]
         self.url+=query
-        print("query is" + query)
         print("keywords are: ")
         print(lst_keywords)
     def scrape(self):
@@ -80,11 +81,6 @@ class Relevancy_Scraper:
                 pass
         self.lst_views = lst_views
         self.lst_dates  = lst_dates
-    def is_clicked(self):
-        
-        print("Clicked it")
-        return True
-    # total_views = sum(lst_)
     def convert_str_to_number(self, views):
         x = views.split(" ")[0]
         number = 0
@@ -114,8 +110,6 @@ class Relevancy_Scraper:
         for date in lst_dates:
             adjusted_dates.append(self.convert_str_to_date(date))
         adjusted_views = []
-        print(adjusted_dates)
-        print(lst_views)
         for i in range(3):            
             int_view = self.convert_str_to_number(lst_views[i]) 
             if adjusted_dates[i] < 1:
@@ -139,18 +133,24 @@ class Relevancy_Scraper:
             return "Popular"
     
     def get_adj_views(self):
-        self.modify_url()
-        self.scrape()
-        adjusted_views = self.adjust(self.lst_dates, self.lst_views)
-        sum_views = sum(adjusted_views)
-        return round(sum_views, 2)
+        try:
+            self.modify_url()
+            self.scrape()
+            adjusted_views = self.adjust(self.lst_dates, self.lst_views)
+            sum_views = sum(adjusted_views)
+            return round(sum_views, 2)
+        except:
+            self.shit_failed = True
+            return 0
     
     def close(self):
         self.driver.quit()
         
     def to_string(self, total_views):
+        keyword = self.keyword
+        if self.shit_failed:
+            return f"Unable to calculate relevancy for topic {keyword}. Try modifying the title or trying again."
         livestream = "" if self.livestream else "not "
         relevancy = self.judgement(total_views)
-        keyword = self.keyword
         result = f"The topic {keyword} has been classified as {relevancy} with about {total_views} views. There are {livestream}livestreams on this topic."
         return result
