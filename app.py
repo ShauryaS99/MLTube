@@ -39,8 +39,8 @@ def predict_clickbait_youtube():
     final_score = score(new_predictions, nsfw_score, relevancy)
     print(new_predictions)
     print(nsfw_score)
-    new_predictions = round(new_predictions * 10, 2)
-    nsfw_score = round(nsfw_score * 10, 2)
+    new_predictions = round(new_predictions * 100, 2)
+    nsfw_score = round(nsfw_score * 100, 2)
     return render_template('prediction.html', prediction_clickbait_youtube_text='{}/10'.format(new_predictions), prediction_nsfw_text = '{}/10'.format(nsfw_score), relevancy_results=relevancy, virality_score=final_score)
 
 # @app.route('/predict_nsfw',methods=['POST'])
@@ -126,8 +126,8 @@ def scrape(title):
         # result3 = p3.to_string(p3_tot_views)
         relevancy = [result, result2]
     print("finished all")
-    print(relevancy)
-
+    x = time.time() - start_time
+    print(x)
     return relevancy
     # return render_template('index.html', relevancy_results=result)
 

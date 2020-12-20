@@ -2,6 +2,7 @@
 
 .masthead {
     text-align: center;
+    padding-bottom: 20px;
 }
 
 .masthead p, .masthead p a {
@@ -9,7 +10,7 @@
 }
 
 .site-title {
-	color: white;
+  color: white;
 }
 
 body {
@@ -35,11 +36,11 @@ p {
     grid-template-columns: 1fr 1fr 1fr; /* Column width size here*/
     grid-template-rows: 200px 200px; /* Row height size here*/
     
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
   }
   
-  .item.a{
+  .item-a{
     background-color: #26273B
     ;
     border-style: solid;
@@ -48,9 +49,12 @@ p {
     text-align: center;
     grid-column-start: 1;
     grid-column-end: 2;
+    zoom: 1;
+    -moz-transform: scale(1);
+    overflow: auto;
   }
   
-  .item.b{
+  .item-b{
     background-color: #26273B
     ;
     border-style: solid;
@@ -61,7 +65,7 @@ p {
     grid-column-end: 4;
   }
   
-  .item.c{
+  .item-c{
     background-color: #26273B
     ;
     border-style: solid;
@@ -72,7 +76,7 @@ p {
     grid-column-end: 3;
   }
   
-  .item.d{
+  .item-d{
     background-color: #26273B
     ;
     border-style: solid;
@@ -82,3 +86,56 @@ p {
     grid-column-start: 3;
     grid-column-end: 4;
   }
+
+.custom_button {
+  background-color: #141526; 
+  border: 2px solid #5F3D85;
+  color: #535467;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  border-radius: 8px;
+}
+
+.custom_button:hover {
+  background-color: rgba(95,61,133,0.15);
+  color: white;
+}
+
+.wrapper {
+    text-align: center;
+    padding-top: 20px
+}
+
+.circle-chart__circle {
+  animation: circle-chart-fill 2s reverse; /* 1 */ 
+  transform: rotate(-90deg); /* 2, 3 */
+  transform-origin: center; /* 4 */
+}
+
+.circle-chart__info {
+  animation: circle-chart-appear 2s forwards;
+  opacity: 0;
+  transform: translateY(0.3em);
+}
+
+.circle-chart__percent {
+  color: white;
+}
+
+@keyframes circle-chart-fill {
+  to { stroke-dasharray: 0 100; }
+}
+
+@keyframes circle-chart-appear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
