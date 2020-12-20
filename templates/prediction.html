@@ -30,9 +30,9 @@
             </h2>  -->
             <svg class="circle-chart" viewbox="0 0 36 36" width="55%" height="55%" xmlns="http://www.w3.org/2000/svg">
       <circle class="circle-chart__background" stroke="#efefef" stroke-width="2" fill="none" cx="50%" cy="50%" r="15.9155" />
-      <circle class="circle-chart__circle" id="clickbait" stroke="#5F3D85" stroke-width="2" stroke-dasharray="30,100" stroke-linecap="round" fill="none" cx="50%" cy="50%" r="15.9155" />
+      <circle class="circle-chart__circle" id="clickbait" stroke="#5F3D85" stroke-width="2" stroke-dasharray="0,100" stroke-linecap="round" fill="none" cx="50%" cy="50%" r="15.9155" />
       <g class="circle-chart__info">
-        <text class="circle-chart__percent" id="txt" x="50%" y="50%" fill="white" alignment-baseline="central" text-anchor="middle" font-size="8">30%</text>
+        <text class="circle-chart__percent" id="click_txt" x="50%" y="50%" fill="white" alignment-baseline="central" text-anchor="middle" font-size="8">0%</text>
       </g>
     </svg>
         </div>
@@ -42,9 +42,9 @@
             </h1>
             <svg class="circle-chart" viewbox="0 0 36 36" width="55%" height="55%" xmlns="http://www.w3.org/2000/svg">
       <circle class="circle-chart__background" stroke="#efefef" stroke-width="2" fill="none" cx="50%" cy="50%" r="15.9155" />
-      <circle class="circle-chart__circle" id="nsfw" stroke="#5F3D85" stroke-width="2" stroke-dasharray="30,100" stroke-linecap="round" fill="none" cx="50%" cy="50%" r="15.9155" />
+      <circle class="circle-chart__circle" id="nsfw" stroke="#5F3D85" stroke-width="2" stroke-dasharray="0,100" stroke-linecap="round" fill="none" cx="50%" cy="50%" r="15.9155" />
       <g class="circle-chart__info">
-        <text class="circle-chart__percent" id="txt" x="50%" y="50%" fill="white" alignment-baseline="central" text-anchor="middle" font-size="8">30%</text>
+        <text class="circle-chart__percent" id="nsfw_txt" x="50%" y="50%" fill="white" alignment-baseline="central" text-anchor="middle" font-size="8">0%</text>
       </g>
     </svg>
         </div>
@@ -72,12 +72,19 @@
     <div class="wrapper">
         <a href="/"><button class="custom_button">Analyze Another Video</button></a>    
     </div>
-    <script>
+    <script type="text/javascript">
+        var clickbait = {{ prediction_clickbait_youtube_text }}
+        var nsfw = {{ prediction_nsfw_text }}
+        console.log(clickbait)
+        console.log(nsfw)
         var clickbait_percentage = document.getElementById("clickbait");
-        clickbait_percentage.style.strokeDasharray="70,100";
-        // console.log(clickbait_percentage)
-        var click_txt = document.getElementById("txt");
-        click_txt.innerHTML="70%"
+        clickbait_percentage.style.strokeDasharray=clickbait + ",100";
+        var click_txt = document.getElementById("click_txt");
+        click_txt.innerHTML=clickbait +"%";
+        var nsfw_percentage = document.getElementById("nsfw");
+        nsfw_percentage.style.strokeDasharray=nsfw + ",100";
+        var nsfw_txt = document.getElementById("nsfw_txt");
+        nsfw_txt.innerHTML=nsfw +"%";
     </script>
 </body>
 

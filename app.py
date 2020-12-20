@@ -33,15 +33,18 @@ def predict_clickbait_youtube():
     data = [str(x) for x in request.form.values()]
     data = data[0]
     relevancy = scrape(data)
-    new_predictions = clickbait_predictor_yt.predict(data)
+    clickbait_score = clickbait_predictor_yt.predict(data)
     filestr = Image.open(request.files['filename'])
     (nsfw_str, nsfw_score) = predict_nsfw(filestr)
-    final_score = score(new_predictions, nsfw_score, relevancy)
-    print(new_predictions)
-    print(nsfw_score)
-    new_predictions = round(new_predictions * 100, 2)
-    nsfw_score = round(nsfw_score * 100, 2)
-    return render_template('prediction.html', prediction_clickbait_youtube_text='{}/10'.format(new_predictions), prediction_nsfw_text = '{}/10'.format(nsfw_score), relevancy_results=relevancy, virality_score=final_score)
+    final_score = score(clickbait_score, nsfw_score, relevancy)
+    clickbait_score = round(clickbait_score * 100)
+    if clickbait_score == 0:
+        clickbait_score = 1
+    nsfw_score = round(nsfw_score * 100)
+    if nsfw_score == 0:
+        nsfw_score = 1
+    print("Clickbait: " + str(clickbait_score) + ", NSFW: " + str(nsfw_score))
+    return render_template('prediction.html', prediction_clickbait_youtube_text=clickbait_score, prediction_nsfw_text = nsfw_score, relevancy_results=relevancy, virality_score=final_score)
 
 # @app.route('/predict_nsfw',methods=['POST'])
 def predict_nsfw(filestr):
@@ -111,8 +114,8 @@ def scrape(title):
     result = p1.to_string(p1_tot_views)
     relevancy = [result]
     x = time.time() - start_time
-    print(x)
     if x > 16.0:
+        print("Time for scraping: " + str(x))
         return relevancy
     if len(keywords) > 1:
         p2 = Relevancy_Scraper(keywords[1])
@@ -125,9 +128,8 @@ def scrape(title):
         # p3.close()
         # result3 = p3.to_string(p3_tot_views)
         relevancy = [result, result2]
-    print("finished all")
     x = time.time() - start_time
-    print(x)
+    print("Time for scraping: " + str(x))
     return relevancy
     # return render_template('index.html', relevancy_results=result)
 
